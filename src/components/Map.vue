@@ -7,6 +7,7 @@
 import { mapMutations } from 'vuex';
 import Vue from 'vue';
 import Zoom from './widgets/Zoom';
+import BasemapGallery from './widgets/BasemapGallery';
 import * as jsapi from '../utils/jsapi';
 
 export default {
@@ -15,7 +16,23 @@ export default {
 
     async init() {
       const cVue = this;
-      const [WebMap, MapView, WebTileLayer, TileInfo, Point, SpatialReference, BasemapGallery, domConstruct] = await jsapi.load(['esri/WebMap', 'esri/views/MapView', 'esri/layers/WebTileLayer', 'esri/layers/support/TileInfo', 'esri/geometry/Point', 'esri/geometry/SpatialReference', 'esri/widgets/BasemapGallery', 'dojo/dom-construct']);
+      const [
+        WebMap,
+        MapView,
+        WebTileLayer,
+        TileInfo,
+        Point,
+        SpatialReference,
+        domConstruct,
+      ] = await jsapi.load([
+        'esri/WebMap',
+        'esri/views/MapView',
+        'esri/layers/WebTileLayer',
+        'esri/layers/support/TileInfo',
+        'esri/geometry/Point',
+        'esri/geometry/SpatialReference',
+        'dojo/dom-construct',
+      ]);
 
       const tileInfo = new TileInfo({
         dpi: 90.71428571427429,
@@ -148,32 +165,32 @@ export default {
       });
 
       const tdtImageLayer = new WebTileLayer({
-        url: 'http://t0.tianditu.gov.cn/img_c/wmts',
+        urlTemplate: 'http://t0.tianditu.com/DataServer?T=img_c&x={col}&y={row}&l={level}',
         tileInfo,
         visible: false,
         id: 'tdtImgLayer',
-        maxScale: 577143.73644287116,
+        maxScale: 2254.4677204799655,
       });
 
       const tdtNotationLayer = new WebTileLayer({
-        url: 'http://t0.tianditu.gov.cn/cva_c/wmts',
+        urlTemplate: 'http://t0.tianditu.com/DataServer?T=cva_c&x={col}&y={row}&l={level}',
         tileInfo,
-        visible: false,
+        visible: true,
         id: 'tdtCvaLayer',
-        maxScale: 577143.73644287116,
+        maxScale: 2254.4677204799655,
       });
 
       const tdtVecLayer = new WebTileLayer({
-        url: 'http://t0.tianditu.gov.cn/vec_w/wmts',
+        urlTemplate: 'http://t0.tianditu.com/DataServer?T=vec_c&x={col}&y={row}&l={level}',
         tileInfo,
-        visible: false,
+        visible: true,
         id: 'tdtVecLayer',
-        maxScale: 577143.73644287116,
+        maxScale: 2254.4677204799655,
       });
 
       const webMap = new WebMap({
         basemap: {
-          baseLayers: [tdtImageLayer, tdtNotationLayer, tdtVecLayer],
+          baseLayers: [tdtImageLayer, tdtVecLayer, tdtNotationLayer],
         },
       });
 
@@ -186,6 +203,9 @@ export default {
         constraints: {
           rotationEnabled: false,
           maxScale: 2254.4677204799655, // 放大到18级就不允许再放大
+          minScale: 18468599.566171877, // 缩小到5级就不允许在缩小
+          minZoom: 6,
+          maxZoom: 18,
         },
         center: new Point({
           x: 120.59013615091254,
@@ -197,12 +217,6 @@ export default {
           components: [],
         },
       });
-
-      const basemapGallery = new BasemapGallery({
-        view: mapView,
-      });
-
-      mapView.ui.add(basemapGallery, { position: 'bottom-right' });
 
       const zoomDiv = domConstruct.create('div');
 
@@ -217,6 +231,18 @@ export default {
         template: '<zoom :view="mapView"/>',
       });
 
+      const basemapDiv = domConstruct.create('div');
+      mapView.ui.add(basemapDiv, { position: 'bottom-right' });
+      /* eslint-disable */
+      const basemapGallery = new Vue({
+        el: basemapDiv,
+        data: {
+          mapView,
+        },
+        components: { BasemapGallery },
+        template: '<basemap-gallery :view="mapView"/>',
+      });
+
       cVue.initMap({ webMap });
       cVue.initMapView({ mapView });
     },
@@ -229,7 +255,7 @@ export default {
 </script>
 
 <style>
-@import url("https://js.arcgis.com/4.10/esri/themes/dark/main.css");
+@import url("http://localhost:8086/arcgis_js_v410_api/arcgis_js_api/library/4.10/esri/themes/dark/main.css");
 #mapid {
   height: 100%;
 }

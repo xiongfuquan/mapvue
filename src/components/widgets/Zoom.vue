@@ -17,9 +17,6 @@ export default {
     return {
       vm: null,
       state: {
-        updating: false,
-        maxZoomed: false,
-        minZoomed: false,
         zoomVal: null,
       },
     };
@@ -34,15 +31,11 @@ export default {
 
   methods: {
     zoomIn() {
-      if (!this.state.maxZoomed) {
-        this.vm.zoomIn();
-      }
+      this.vm.zoomIn();
     },
 
     zoomOut() {
-      if (!this.state.minZoomed) {
-        this.vm.zoomOut();
-      }
+      this.vm.zoomOut();
     },
 
     watchZoom() {
@@ -57,19 +50,11 @@ export default {
   mounted() {
     const cVue = this;
     cVue.view.when(async (view) => {
-      const [ZoomViewModel, watchUtils] = await jsapi.load([
+      const [ZoomViewModel] = await jsapi.load([
         'esri/widgets/Zoom/ZoomViewModel',
-        'esri/core/watchUtils',
       ]);
       cVue.vm = new ZoomViewModel();
       cVue.vm.view = view;
-      watchUtils.init(view, 'zoom', (val) => {
-        cVue.state.maxZoomed = val === view.constraints.maxZoom;
-        cVue.state.minZoomed = val === view.constraints.minZoom;
-      });
-      watchUtils.init(view, 'stationary', (updating) => {
-        cVue.state.updating = updating;
-      });
     });
     this.watchZoom();
   },
