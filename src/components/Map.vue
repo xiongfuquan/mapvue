@@ -8,6 +8,8 @@ import { mapMutations } from 'vuex';
 import Vue from 'vue';
 import Zoom from './widgets/Zoom';
 import BasemapGallery from './widgets/BasemapGallery';
+import Compass from './widgets/Compass';
+import Coordinate from './widgets/Coordinate';
 import * as jsapi from '../utils/jsapi';
 
 export default {
@@ -201,7 +203,7 @@ export default {
           wkid: 4490,
         },
         constraints: {
-          rotationEnabled: false,
+          rotationEnabled: true,
           maxScale: 2254.4677204799655, // 放大到18级就不允许再放大
           minScale: 18468599.566171877, // 缩小到5级就不允许在缩小
           minZoom: 6,
@@ -241,6 +243,30 @@ export default {
         },
         components: { BasemapGallery },
         template: '<basemap-gallery :view="mapView"/>',
+      });
+
+      const compassDiv = domConstruct.create('div');
+      mapView.ui.add(compassDiv, { position: 'bottom-right' });
+      /* eslint-disable */
+      const compass = new Vue({
+        el: compassDiv,
+        data: {
+          mapView,
+        },
+        components: { Compass },
+        template: '<compass :view="mapView"/>',
+      });
+
+      const coorDiv = domConstruct.create('div');
+      mapView.ui.add(coorDiv, { position: 'bottom-left' });
+      /* eslint-disable */
+      const coor = new Vue({
+        el: coorDiv,
+        data: {
+          mapView,
+        },
+        components: { Coordinate },
+        template: '<coordinate :view="mapView" />',
       });
 
       cVue.initMap({ webMap });
