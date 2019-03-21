@@ -9,5 +9,11 @@
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script src="./static/config.js"></script>
+    <script>
+      var jsapiUrl = window.appcfg.jsapiUrl;
+      var cssUrl = jsapiUrl + 'arcgis_js_v410_api/4.10/esri/themes/dark/main.css';
+      document.write('<link rel="stylesheet" href="' + cssUrl + '">');
+    </script>
   </body>
 </html>

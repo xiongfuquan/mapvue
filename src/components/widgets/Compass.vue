@@ -1,9 +1,10 @@
 <template>
-  <div class="compass esri-component">
-    <button class="antiClock" @click="rotateHandler('antiClock')"></button>
-    <button class="north" :style="{ transform: 'rotate(' + degree + 'deg)' }"
-    @click="rotateHandler('north')"></button>
-    <button class="clock" @click="rotateHandler('clock')"></button>
+  <div class="esri-component">
+    <div class="compass">
+      <a class="compassBtn" @click="this.reset">
+        <span class="esri-icon-compass" :style="toRotationTransform"/>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -14,7 +15,11 @@ export default {
   data() {
     return {
       vm: null,
-      degree: 0,
+      state: {
+        orientation: {
+          z: 0,
+        },
+      },
     };
   },
   props: {
@@ -24,88 +29,57 @@ export default {
     },
   },
   methods: {
-    rotateHandler(type) {
-      switch (type) {
-        case 'antiClock':
-          this.vm.view.rotation -= 90;
-          this.degree -= 90;
-          break;
-        case 'north':
-          this.degree = 0;
-          this.vm.reset();
-          break;
-        case 'clock':
-          this.degree += 90;
-          this.vm.view.rotation += 90;
-          break;
-        default:
-          break;
-      }
+    reset() {
+      this.vm.reset();
+    },
+  },
+  computed: {
+    toRotationTransform() {
+      return {
+        display: 'inline-block',
+        fontSize: '24px',
+        transform: `rotateZ(${this.state.orientation.z}deg)`,
+      };
     },
   },
   mounted() {
     const cVue = this;
     cVue.view.when(async (view) => {
-      const [CompassViewModel] = await jsapi.load(['esri/widgets/Compass/CompassViewModel']);
+      const [CompassViewModel] = await jsapi.load([
+        'esri/widgets/Compass/CompassViewModel',
+      ]);
       cVue.vm = new CompassViewModel();
       cVue.vm.view = view;
+      cVue.vm.watch('orientation', (orientation) => {
+        cVue.state = { ...cVue.state, orientation };
+      });
     });
   },
 };
 </script>
 
 <style scoped>
-  .compass {
-    position: absolute;
-    width: 52px;
-    height: 54px;
-    right: -2px;
-    bottom: 135px;
-    box-shadow: none;
-    background: url('../../assets/earth-navi-control-pc4.png') 0% 0% / 266px no-repeat;
-  }
+.compass {
+  position: absolute;
+  right: -2px;
+  bottom: 165px;
+  box-shadow: none;
+}
 
-  .antiClock {
-    position: absolute;
-    width: 15px;
-    height: 42px;
-    left: 2px;
-    top: 5px;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    opacity: 1;
-    background: url('../../assets/earth-navi-control-pc4.png') -75px -5px / 266px no-repeat;
-  }
-
-  .antiClock:hover, .clock:hover{
-    background: url('../../assets/earth-navi-control-pc4.png') -89px -5px / 266px no-repeat;
-  }
-
-  .north {
-    position: absolute;
-    width: 14px;
-    height: 44px;
-    top: 4px;
-    left: 19px;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    opacity: 1;
-    background: url('../../assets/earth-navi-control-pc4.png') -56px -4px /266px no-repeat;
-  }
-
-  .clock {
-    position: absolute;
-    width: 15px;
-    height: 42px;
-    right: 2px;
-    top: 5px;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    opacity: 1;
-    background: url('../../assets/earth-navi-control-pc4.png') -75px -5px / 266px no-repeat;
-    transform: scaleX(-1);
-  }
+.compassBtn {
+  display: inline-block;
+  cursor: pointer;
+  margin: 6px;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+  transition: color 0.3s;
+  background: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
 </style>
