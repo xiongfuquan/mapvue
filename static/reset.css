@@ -1,0 +1,185 @@
+@CHARSET "UTF-8";
+
+/* Reset & Basics */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, #header, hgroup, menu, nav, section {
+	display: block;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
+/*body {
+	height: 100%;
+    width: 100%;
+    background:#FFF;
+	line-height: 1;
+	font:15px/1.231 \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,arial,helvetica,clean,sans-serif;
+	*font-size:small;
+    *font: x-small;
+}*/
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size:inherit;
+    font: 100%;
+}
+
+label{
+	font-weight: normal;
+}
+/* Basic Styles */
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.cl{
+	clear: left;
+}
+
+.cr {
+	clear: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.block {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+/* Color Styles
+===================================== */
+.color-font-tip {
+	color: #c9c9c9;
+}
+
+/* Height Styles
+===================================== */
+.height120 {
+	height:120px;
+}
+.height250 {
+	height:250px;
+}
+.height450 {
+	height:450px;
+}
+
+/* Width Styles
+===================================== */
+.width50 {
+	width: 50px;
+}
+.width80 {
+	width: 80px;
+}
+.width200 {
+	width: 200px;
+}
+.width300 {
+	width: 300px;
+}
+.width360 {
+	width: 360px;
+}
+.width450 {
+	width: 450px;
+}
+.width700 {
+	width: 700px;
+}
+
+/* Margin Styles
+===================================== */
+.mr10 {
+	margin-right: 10px;
+}
+.ml10 {
+	margin-left: 10px;
+}
+.ml20 {
+	margin-left: 20px;
+}
+.mb20 {
+	margin-bottom: 20px;
+}
+.mb10 {
+	margin-bottom: 10px;
+}
+
+/* Padding Styles
+===================================== */
+
+
+/* Box Styles
+===================================== */
+
+
+/* Align Styles
+===================================== */
+.align-center {
+  text-align: center;
+}
+
+/* Font Styles
+===================================== */
+.fs20 {
+	font-size: 20px;
+}
+.fs15 {
+	font-size: 15px;
+}
+.fs16{
+	font-size: 16px;
+}
+.fs17{
+	font-size: 17px;
+}
+/**���IE11�¿�ȴ��ҵ�����**/
+.esri-widget table{
+	width : 406px !important;
+}
+.esri-widget--button{
+	width: 38px !important;
+	height: 38px !important;
+}
+.esri-ui-bottom-right .esri-component{
+	margin-bottom: 10px;
+}

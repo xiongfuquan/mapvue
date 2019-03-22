@@ -1,12 +1,15 @@
 <template>
   <div id="mapid" style="height:100%;">
     <Trans3D />
+    <LeftMenu />
   </div>
 </template>
 
 <script>
+import 'font-awesome/css/font-awesome.min.css';
 import { mapState, mapMutations } from 'vuex';
 import Trans3D from './components/widgets/Trans3D';
+import LeftMenu from './components/leftmenu/LeftMenu';
 
 export default {
   name: 'App',
@@ -16,6 +19,7 @@ export default {
   },
   components: {
     Trans3D,
+    LeftMenu,
   },
   computed: mapState({
     viewMode: state => state.mode,
