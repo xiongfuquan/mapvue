@@ -1,45 +1,39 @@
 <template>
   <div id="mapid" style="height:100%;">
-    <Trans3D />
-    <LeftMenu />
+    <!-- <Trans3D />
+    <LeftMenu /> -->
   </div>
 </template>
 
-<script>
-import 'font-awesome/css/font-awesome.min.css';
-import { mapState, mapMutations } from 'vuex';
-import Trans3D from './components/widgets/Trans3D';
-import LeftMenu from './components/leftmenu/LeftMenu';
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import {
+  State,
+  Mutation,
+} from 'vuex-class';
 
-export default {
-  name: 'App',
-  data() {
-    return {
-    };
-  },
-  components: {
-    Trans3D,
-    LeftMenu,
-  },
-  computed: mapState({
-    viewMode: state => state.mode,
-  }),
-  methods: {
-    ...mapMutations({
-      init: 'init',
-    }),
-  },
+@Component
+export default class App extends Vue{
+  @State('mode') viewMode;
+  @Mutation('init') mapInit;
+
+  created() {
+    this.viewMode
+    this.mapInit
+  }
+
   mounted() {
-    this.init({
+    this.mapInit({
       container: 'mapid',
       viewMode: this.viewMode,
     }); // 初始化地图
-  },
-};
+  }
+}
 </script>
 
 <style>
-#app {
+#mapid {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

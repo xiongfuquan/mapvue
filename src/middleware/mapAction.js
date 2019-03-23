@@ -3,10 +3,10 @@
 import Vue from 'vue';
 import * as jsapi from '../utils/jsapi';
 import { VIEW_MODE_2D } from '../constants/action-types';
-import Zoom from '../components/widgets/Zoom';
-import BasemapGallery from '../components/widgets/BasemapGallery';
-import Compass from '../components/widgets/Compass';
-import Coordinate from '../components/widgets/Coordinate';
+// import Zoom from '../components/widgets/Zoom.vue';
+// import BasemapGallery from '../components/widgets/BasemapGallery.vue';
+// import Compass from '../components/widgets/Compass.vue';
+// import Coordinate from '../components/widgets/Coordinate.vue';
 
 const ags = {}; // 保存地图对象
 let dragHandler = null; // 二三维转换，拖拽功能句柄
@@ -297,7 +297,7 @@ export async function initMap(state, payload) {
   const { container } = payload;
   await initSceneMap(container);
 
-  await initToolbar();
+  // await initToolbar();
 }
 
 export function switchMap(state) {
